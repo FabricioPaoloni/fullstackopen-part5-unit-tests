@@ -68,7 +68,7 @@ const App = () => {
       setAuthor('')
       setUrl('')
       setLikes(0)
-      setSuccessMessage(`New blog created: ${JSON.stringify(createdBlog)}`)
+      setSuccessMessage(`New blog created: ${createdBlog.title} by ${createdBlog.author}`)
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
@@ -107,12 +107,13 @@ const App = () => {
 
   return (
     <div>
-      {errorMessage && <p style={{color: "red"}}>Error: {errorMessage}</p>}
-      {successMessage && <p style={{color: "green"}}>Success: {successMessage}</p>}
+      {errorMessage && <h3 style={{color: "red"}}>Error: {errorMessage}</h3>}
+      {successMessage && <h3 style={{color: "green"}}>{successMessage}</h3>}
       
       {user === null ?
         loginForm() :
         <div>
+          <h3>{user.name} logged in <button onClick={handleLogout} >logout</button></h3>
 
           <h2>Create new blog:</h2>
           <form onSubmit={handleCreateBlog}>
@@ -124,7 +125,7 @@ const App = () => {
           </form>
 
           <h2>blogs</h2>
-          <p>{user.name} logged in <button onClick={handleLogout} >logout</button></p>
+          
 
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
