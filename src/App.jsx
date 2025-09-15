@@ -9,6 +9,12 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
+
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+  const [likes, setLikes] = useState(0)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -21,6 +27,7 @@ const App = () => {
     if (loggedUserJSON) {
       const parsedUser = JSON.parse(loggedUserJSON)
       setUser(parsedUser)
+      blogService.setToken(parsedUser.token)
     }
   }, [])
 
@@ -29,6 +36,7 @@ const App = () => {
 
     try {
       const user = await loginService.login({ username, password })
+      blogService.setToken(user.token)
       setUser(user)
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user))
       setUsername('')
@@ -44,6 +52,34 @@ const App = () => {
   const handleLogout = () => {
     setUser(null)
     window.localStorage.removeItem('loggedBloglistUser')
+  }
+
+  const handleCreateBlog = async (event) => {
+    event.preventDefault()
+    try {
+      let newBlog = {
+        title: title,
+        author: author,
+        url: url,
+        likes: likes
+      }
+      const createdBlog = await blogService.create(newBlog)
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      setLikes(0)
+      setSuccessMessage(`New blog created: ${JSON.stringify(createdBlog)}`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+      let newBlogList = blogs.concat(createdBlog)
+      setBlogs(newBlogList)
+    } catch {
+      setErrorMessage('An error ocurred while creating a new blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
   }
 
   const loginForm = () => (
@@ -71,20 +107,31 @@ const App = () => {
 
   return (
     <div>
-      {errorMessage && <p>Error: {errorMessage}</p>
-      }
+      {errorMessage && <p style={{color: "red"}}>Error: {errorMessage}</p>}
+      {successMessage && <p style={{color: "green"}}>Success: {successMessage}</p>}
+      
       {user === null ?
         loginForm() :
         <div>
+
+          <h2>Create new blog:</h2>
+          <form onSubmit={handleCreateBlog}>
+            <label style={{display: "block"}}>title: <input type='text' onChange={({ target }) => { setTitle(target.value) }} value={title} ></input></label>
+            <label style={{display: "block"}}>author: <input type='text' onChange={({ target }) => { setAuthor(target.value) }} value={author} ></input></label>
+            <label style={{display: "block"}}>url: <input type='text' onChange={({ target }) => { setUrl(target.value) }} value={url}></input></label>
+            <label style={{display: "block"}}>likes: <input type='number' onChange={({ target }) => { setLikes(target.value) }} value={likes} ></input></label>
+            <button type='submit' style={{display: "block"}}>Create Blog</button>
+          </form>
+
           <h2>blogs</h2>
           <p>{user.name} logged in <button onClick={handleLogout} >logout</button></p>
-          
+
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}
         </div>
       }
-     
+
     </div>
   )
 }
