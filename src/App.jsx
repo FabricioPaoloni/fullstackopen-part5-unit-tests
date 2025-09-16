@@ -19,10 +19,12 @@ const App = () => {
   const [likes, setLikes] = useState(0)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    blogService.getAll().then(blogs =>{
       setBlogs(blogs)
-    )
+    })
   }, [])
+  //sort blogs to show them in order acording to the amount of likes
+  let sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
@@ -130,8 +132,7 @@ const App = () => {
 
           <h2>blogs</h2>
 
-
-          {blogs.map(blog =>
+          {sortedBlogs.map(blog =>
             <Blog key={blog.id} blog={blog} handleLike={handleLike}/>
           )}
         </div>
