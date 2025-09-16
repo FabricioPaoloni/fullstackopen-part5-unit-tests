@@ -56,20 +56,9 @@ const App = () => {
     window.localStorage.removeItem('loggedBloglistUser')
   }
 
-  const handleCreateBlog = async (event) => {
-    event.preventDefault()
+  const handleCreateBlog = async (newBlog) => {
     try {
-      let newBlog = {
-        title: title,
-        author: author,
-        url: url,
-        likes: likes
-      }
       const createdBlog = await blogService.create(newBlog)
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      setLikes(0)
       setSuccessMessage(`New blog created: ${createdBlog.title} by ${createdBlog.author}`)
       setTimeout(() => {
         setSuccessMessage(null)
@@ -121,14 +110,6 @@ const App = () => {
           <Togglable buttonLabel='create new blog' >
             <BlogForm
               handleCreateBlog={handleCreateBlog}
-              handleTitleChange={({ target }) => { setTitle(target.value) }}
-              handleAuthorChange={({ target }) => { setAuthor(target.value) }}
-              handleUrlChange={({ target }) => { setUrl(target.value) }}
-              handleLikesChange={({ target }) => { setLikes(target.value) }}
-              title={title}
-              author={author}
-              url={url}
-              likes={likes}
             />
           </Togglable>
 
