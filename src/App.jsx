@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import BlogForm from './components/BlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -107,25 +109,32 @@ const App = () => {
 
   return (
     <div>
-      {errorMessage && <h3 style={{color: "red"}}>Error: {errorMessage}</h3>}
-      {successMessage && <h3 style={{color: "green"}}>{successMessage}</h3>}
-      
+      {errorMessage && <h3 style={{ color: "red" }}>Error: {errorMessage}</h3>}
+      {successMessage && <h3 style={{ color: "green" }}>{successMessage}</h3>}
+
       {user === null ?
         loginForm() :
         <div>
           <h3>{user.name} logged in <button onClick={handleLogout} >logout</button></h3>
 
           <h2>Create new blog:</h2>
-          <form onSubmit={handleCreateBlog}>
-            <label style={{display: "block"}}>title: <input type='text' onChange={({ target }) => { setTitle(target.value) }} value={title} ></input></label>
-            <label style={{display: "block"}}>author: <input type='text' onChange={({ target }) => { setAuthor(target.value) }} value={author} ></input></label>
-            <label style={{display: "block"}}>url: <input type='text' onChange={({ target }) => { setUrl(target.value) }} value={url}></input></label>
-            <label style={{display: "block"}}>likes: <input type='number' onChange={({ target }) => { setLikes(target.value) }} value={likes} ></input></label>
-            <button type='submit' style={{display: "block"}}>Create Blog</button>
-          </form>
+          <Togglable buttonLabel='create new blog' >
+            <BlogForm
+              handleCreateBlog={handleCreateBlog}
+              handleTitleChange={({ target }) => { setTitle(target.value) }}
+              handleAuthorChange={({ target }) => { setAuthor(target.value) }}
+              handleUrlChange={({ target }) => { setUrl(target.value) }}
+              handleLikesChange={({ target }) => { setLikes(target.value) }}
+              title={title}
+              author={author}
+              url={url}
+              likes={likes}
+            />
+          </Togglable>
+
 
           <h2>blogs</h2>
-          
+
 
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
