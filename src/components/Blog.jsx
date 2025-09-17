@@ -1,8 +1,8 @@
 import { useState } from "react"
 
 const Blog = ({ blog, handleLike, loggedUser, handleDeleteBlog }) => {
-  const [ showMore, setShowMore ] = useState(false)
-  const toggleVisibility = (blog) => {
+  const [showMore, setShowMore] = useState(false)
+  const toggleVisibility = () => {
     setShowMore(!showMore)
     // console.log(blog)
     // console.log(loggedUser)
@@ -14,7 +14,7 @@ const Blog = ({ blog, handleLike, loggedUser, handleDeleteBlog }) => {
     borderWidth: 1,
     marginBottom: 5
   }
-  const deleteStyle={
+  const deleteStyle = {
     marginBottom: 5,
     backgroundColor: 'orange',
     borderRadius: 5
@@ -33,18 +33,19 @@ const Blog = ({ blog, handleLike, loggedUser, handleDeleteBlog }) => {
   }
 
 
-  return(
-  <div style={showMore ? blogStyle: {} }>
-    {blog.title} by {blog.author} - <button onClick={() => toggleVisibility(blog)}>{ showMore ? 'hide' : 'view' }</button>
-    {showMore && <div>
-      url: {blog.url} <br/>
-      likes: {blog.likes} <button onClick={(event) => addLike(event, blog)}>like</button> <br/>
-      user: {blog.user.name} <br />
-      {loggedUser.username === blog.user.username && 
-      <button style={deleteStyle} onClick={() => deleteBlog(blog)}>delete blog</button>
-      }
-    </div>}
-  </div>  
-)}
+  return (
+    <div style={showMore ? blogStyle : {}}>
+      {blog.title} by {blog.author} - <button onClick={() => toggleVisibility(blog)}>{showMore ? 'hide' : 'view'}</button>
+      {showMore && <div>
+        url: {blog.url} <br />
+        likes: {blog.likes} <button onClick={(event) => addLike(event, blog)}>like</button> <br />
+        user: {blog.user.name} <br />
+        {loggedUser.username === blog.user.username &&
+          <button style={deleteStyle} onClick={() => deleteBlog(blog)}>delete blog</button>
+        }
+      </div>}
+    </div>
+  )
+}
 
 export default Blog

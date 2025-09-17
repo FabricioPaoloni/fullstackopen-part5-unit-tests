@@ -13,13 +13,8 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
 
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-  const [likes, setLikes] = useState(0)
-
   useEffect(() => {
-    blogService.getAll().then(blogs =>{
+    blogService.getAll().then(blogs => {
       setBlogs(blogs)
     })
   }, [])
@@ -83,39 +78,39 @@ const App = () => {
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
-    } catch{
+    } catch {
       setErrorMessage('Error ocurred while updating the blog')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
     }
- }
+  }
 
- const handleDeleteBlog = async (deleteBlog) => {
-  try{
-    let confirmation = window.confirm('Are you sure you want to delete that blog?')
-    if(confirmation){
-      const deletedBlog = await blogService.deleteBlog(deleteBlog)
-      let filteredArray = blogs.filter( blog => blog.id !== deleteBlog.id)
-      setBlogs(filteredArray)
-      console.log(deletedBlog)
-      setSuccessMessage(`Blog deleted: ${deleteBlog.title} by ${deleteBlog.author}`)
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
-    } else{
-      setErrorMessage('Delete operation canceled by user')  
+  const handleDeleteBlog = async (deleteBlog) => {
+    try {
+      let confirmation = window.confirm('Are you sure you want to delete that blog?')
+      if (confirmation) {
+        const deletedBlog = await blogService.deleteBlog(deleteBlog)
+        let filteredArray = blogs.filter(blog => blog.id !== deleteBlog.id)
+        setBlogs(filteredArray)
+        console.log(deletedBlog)
+        setSuccessMessage(`Blog deleted: ${deleteBlog.title} by ${deleteBlog.author}`)
+        setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
+      } else {
+        setErrorMessage('Delete operation canceled by user')
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      }
+    } catch {
+      setErrorMessage('Error ocurred while deleting the blog')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
     }
-  } catch{
-    setErrorMessage('Error ocurred while deleting the blog')
-    setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
   }
- }
 
   const loginForm = () => (
     <div>
@@ -161,7 +156,7 @@ const App = () => {
           <h2>blogs</h2>
 
           {sortedBlogs.map(blog =>
-            <Blog key={blog.id} blog={blog} 
+            <Blog key={blog.id} blog={blog}
               handleLike={handleLike} loggedUser={user}
               handleDeleteBlog={handleDeleteBlog} />
           )}
