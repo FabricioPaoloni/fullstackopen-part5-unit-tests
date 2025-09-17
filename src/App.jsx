@@ -66,6 +66,7 @@ const App = () => {
         setSuccessMessage(null)
       }, 5000)
       let newBlogList = blogs.concat(createdBlog)
+      console.log(createdBlog)
       setBlogs(newBlogList)
     } catch {
       setErrorMessage('An error ocurred while creating a new blog')
@@ -89,6 +90,33 @@ const App = () => {
       }, 5000)
     }
  }
+
+ const handleDeleteBlog = async (deleteBlog) => {
+  try{
+    let confirmation = window.confirm('Are you sure you want to delete that blog?')
+    if(confirmation){
+      const deletedBlog = await blogService.deleteBlog(deleteBlog)
+      let filteredArray = blogs.filter( blog => blog.id !== deleteBlog.id)
+      setBlogs(filteredArray)
+      console.log(deletedBlog)
+      setSuccessMessage(`Blog deleted: ${deleteBlog.title} by ${deleteBlog.author}`)
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    } else{
+      setErrorMessage('Delete operation canceled by user')  
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  } catch{
+    setErrorMessage('Error ocurred while deleting the blog')
+    setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+  }
+ }
+
   const loginForm = () => (
     <div>
       <h2>Login</h2>
@@ -133,7 +161,9 @@ const App = () => {
           <h2>blogs</h2>
 
           {sortedBlogs.map(blog =>
-            <Blog key={blog.id} blog={blog} handleLike={handleLike}/>
+            <Blog key={blog.id} blog={blog} 
+              handleLike={handleLike} loggedUser={user}
+              handleDeleteBlog={handleDeleteBlog} />
           )}
         </div>
       }
