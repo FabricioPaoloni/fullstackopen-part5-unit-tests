@@ -54,4 +54,38 @@ describe('<Blog /> component tests', () => {
 
     })
 
+    test('if the like button is clicked twice, the event handler the component received as props is called twice', async () => {
+        //used to emulate a blog in the database for testing purpose
+        const blog = {
+            title: 'if the like button is clicked twice, the event handler the component received as props is called twice',
+            author: 'Exercise 5.15',
+            url: 'testingcomponent.com/5.15',
+            likes: 515,
+            user: {
+                id: 'someid',
+                name: 'test-5.15',
+                username: 'testing'
+            }
+        }
+        //used to emulate a loggedUser in the app for testing purpose, otherwise test fails because of Blog component's definition
+        const loggedUser = blog.user 
+        //mockHandler function is going to emulate handleLike function
+        const mockHandler = vi.fn()
+
+        render(<Blog blog={blog} loggedUser={loggedUser} handleLike={mockHandler} />)
+
+        const user = userEvent.setup()
+        //app must render the hidden content
+        const viewButton = screen.getByText('view')
+        await user.click(viewButton)
+        //now we can click the like button
+
+        const likeButton = screen.getByText('like')
+        await user.click(likeButton)
+        await user.click(likeButton)
+
+        expect(mockHandler.mock.calls).toHaveLength(2)
+
+    })
+
 })

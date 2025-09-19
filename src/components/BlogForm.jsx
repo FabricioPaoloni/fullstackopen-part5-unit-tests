@@ -15,6 +15,7 @@ const BlogForm = ({ handleCreateBlog }) => {
       url: url,
       likes: likes
     }
+    // console.log(newBlog)
     handleCreateBlog(newBlog)
     setTitle('')
     setAuthor('')
