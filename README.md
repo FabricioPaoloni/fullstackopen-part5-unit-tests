@@ -37,11 +37,11 @@ To run the end to end tests, first you have to execute two terminals process, on
 
 Then you can run in a third terminal situated in the ./end-to-end-tests folder the following scripts (after executing the 2 terminal's process for frontend and backend):
 
-    ~ *npm run test* 
+    ~ npm run test
     
     to run the end to end tests (terminal located at ./end-to-end-tests folder); or 
 
-    ~ *npm run test:report* 
+    ~ npm run test:report
     
     to access the playwright report (terminal located at ./end-to-end-tests folder)
 
