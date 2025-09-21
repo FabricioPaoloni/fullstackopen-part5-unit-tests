@@ -27,13 +27,16 @@ Remember to install all the dependencies for ./bloglist-frontend and also the de
 ### -
 
 To run the unit tests, you can run in a terminal situated in the *bloglist-frontend* project's folder the following command:
+
     - npm run test
 
 To run the end to end tests, first you have to execute two terminals process, one for the backend and the other one for the front end:   
+
     - initialize backend with testing database in a terminal located at *backend's project folder*:
-        ~ *npm run start:test*
+        ~ npm run start:test
+
     - initialize frontend in a terminal located at *bloglist-frontend project's folder*:
-        ~ *npm run dev*
+        ~ npm run dev
 
 Then you can run in a third terminal situated in the ./end-to-end-tests folder the following scripts (after executing the 2 terminal's process for frontend and backend):
 
