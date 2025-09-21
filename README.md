@@ -2,9 +2,9 @@
 
 FullStackOpen's Section 5 has been splitted in 2 different projects/repositories
 
-    - unit tests are found in this repository in 2 different files under the names 'Blog.test.jsx' and 'BlogForm.test.jsx'. It contains the resolution of exercises from 1 to 16.
+- unit tests are found in this repository in 2 different files under the names 'Blog.test.jsx' and 'BlogForm.test.jsx'. It contains the resolution of exercises from 1 to 16.
 
-    - end to end tests are found in another repository: 
+- end to end tests are found in another repository: 
 
     https://github.com/FabricioPaoloni/-fullstackopen-part5-end-to-end-tests.git
 
