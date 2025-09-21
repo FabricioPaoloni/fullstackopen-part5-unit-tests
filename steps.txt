@@ -162,3 +162,68 @@ that the form calls the event handler it received as props with the right detail
     3. test the 4 inputs fields and test that the Create Blog button calls the funcion and does it with the right parameters -done
     -COMPLETED-
 
+5.17: Blog List End To End Testing, step 1
+Create a new npm project for tests and configure Playwright there.
+Make a test to ensure that the application displays the login form by default.
+    1. npm init playwright@latest -done
+    2. define npm script for running tests and test reports in package.json -done
+    3. make an npm script for the backend, which will enable it to be started in testing mode, i.e. so that NODE_ENV gets the value test. -done
+    3. make the test file and write the test. -done
+    -COMPLETED-
+
+5.18: Blog List End To End Testing, step 2
+Do the tests for login. Test both successful and failed login. For tests, create a user in the beforeEach block.
+    1. modify the backend so it has a new controller for testing
+        a. Let's create a new router for the tests inside the controllers folder, in the testing.js file -done
+        b. and add it to the backend only if the application is run in test-mode -done
+    2. add the RESET call in the test and add a user for testing -done
+
+5.19: Blog List End To End Testing, step 3
+Create a test that verifies that a logged in user can create a blog. The body of the test may look like the following
+    1. Created a helper.js file with loginWith() helper function to make easier the login -done
+    2. Create a test that attempt to create a new blog -done
+    -COMPLETED-
+
+5.20: Blog List End To End Testing, step 4
+Do a test that makes sure the blog can be liked.
+    -COMPLETED-
+
+5.21: Blog List End To End Testing, step 5
+Make a test that ensures that the user who added the blog can delete the blog. 
+If you use the window.confirm dialog in the delete operation, you may have to Google how to use the dialog in the Playwright tests.
+    -COMPLETED-
+
+5.22: Blog List End To End Testing, step 6
+Make a test that ensures that only the user who added the blog sees the blog's delete button.
+    1. login and creating the new blog - done
+    2. logout - done
+    3. login with second user - done
+    4. check for 'delete blog' button NOT to be visible - done
+    -COMPLETED-
+
+5.23: Blog List End To End Testing, step 7
+Do a test that ensures that the blogs are arranged in the order according to the likes, the blog with the most likes first.
+This task is significantly more challenging than the previous ones.
+    1. i will create 3 blogs with likes 10, 30 and 20 
+    - done
+    2. the blogs should appear in the following order: 30 likes, 20 likes and 10 likes 
+    - done
+    3. we create and array of blogs (using the class selector '.blogs')
+            let blogsArray = await page.locator('.blog').all()
+            -done
+            now we have an array of blogs in positions [0], [1]. [2]
+    3. in order to check the positions, we should click de VIEW button of each and ASSERT that each element contains the text 'likes: 30', 
+    'likes: 20' and 'likes: 10' using the .toContainText() playwright's function
+            await blogsArray[0].getByRole('button', { name: 'view' }).click()
+            await expect(blogsArray[0]).toContainText('likes: 30')
+
+            await blogsArray[1].getByRole('button', { name: 'view' }).click()
+            await expect(blogsArray[1]).toContainText('likes: 20')
+
+            await blogsArray[2].getByRole('button', { name: 'view' }).click()
+            await expect(blogsArray[2]).toContainText('likes: 10')
+
+            -done
+    -COMPLETED-
+
+SECTION 5 COMPLETED

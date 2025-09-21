@@ -154,12 +154,13 @@ const App = () => {
 
 
           <h2>blogs</h2>
-
+          {/* <ul> */}
           {sortedBlogs.map(blog =>
             <Blog key={blog.id} blog={blog}
               handleLike={handleLike} loggedUser={user}
               handleDeleteBlog={handleDeleteBlog} />
           )}
+          {/* </ul> */}
         </div>
       }
 

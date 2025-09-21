@@ -34,7 +34,7 @@ const Blog = ({ blog, handleLike, loggedUser, handleDeleteBlog }) => {
 
 
   return (
-    <div style={showMore ? blogStyle : {}}>
+    <div className='blog' style={showMore ? blogStyle : {}}>
       {blog.title} by {blog.author} - <button onClick={() => toggleVisibility(blog)}>{showMore ? 'hide' : 'view'}</button>
       {showMore && <div>
         url: {blog.url} <br />
